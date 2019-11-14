@@ -11,14 +11,14 @@ public class DbHelper extends SQLiteOpenHelper {
     public static String NOME_DB = "DB_SEUBANCO";
     public static String TABELA_CONTATO = "contato";
 
-    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DbHelper(Context context) {
         super(context, NOME_DB, null, VERSION);
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE IF NOT EXISTS" + TABELA_CONTATO
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABELA_CONTATO
                 + "(id INTERGER PRIMARY KEY AUTOINCREMENT,"
                 + "(nomeContato TEXT NOT NULL,telContato TEXT);";
 
@@ -30,7 +30,15 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        String sql = " DROP TABLE IF EXISTS " +TABELA_CONTATO+";";
+        try{
+            db.execSQL(sql);
+            onCreate(db);
+            Log.i("INFO DB", "Sucesso ao criar tabela.");
+        } catch (Exception e) {
+            Log.e("INFO DB", "Erro ao atualizar tabela."+e.getMessage());
+        }
 
     }
 }
