@@ -50,6 +50,10 @@ public class ContatoDAO implements IcontatoDAO {
             escreve.update(DbHelper.TABELA_CONTATO, cv, "id=?", args);
             Log.i("INFODB", "Sucesso ao atualizar o registro!");
 
+
+        } catch (Exception e){
+            Log.e("INFODB","Erro ao atualizar o registro!" +e.getMessage());
+
             return false;
         }
 
@@ -78,7 +82,7 @@ public class ContatoDAO implements IcontatoDAO {
         Cursor c = le.rawQuery(sql, null);
 
         while (((Cursor) c).moveToNext()) {
-            Contato contato = new Contato() ();
+            Contato contato = new Contato ();
             Long id = c.getLong(c.getColumnIndex("id"));
             String nomeContato = c.getString(c.getColumnIndex("nomeContato"));
             String telefoneContato = c.getString(c.getColumnIndex("telContato"));
